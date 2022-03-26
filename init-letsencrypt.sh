@@ -5,7 +5,7 @@ if ! [ -x "$(command -v docker-compose)" ]; then
   exit 1
 fi
 
-domains=(pm.efficient.guru)
+domains=(pm.efficient.guru api-pm.efficient.guru)
 rsa_key_size=4096
 data_path="./data/certbot"
 email="woraphol.j@appwow.co" # Adding a valid address is strongly recommended

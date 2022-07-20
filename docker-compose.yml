@@ -1,8 +1,9 @@
-version: '3'
+version: '3.5'
 
 services:
   nginx:
-    image: nginx:1.15-alpine
+    # image: nginx:1.15-alpine
+    image: nginx:1.15
     restart: unless-stopped
     volumes:
       - ./data/nginx:/etc/nginx/conf.d
@@ -11,6 +12,8 @@ services:
     ports:
       - "80:80"
       - "443:443"
+      - "8443:8443"
+      - "58443:58443"
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
   certbot:
     image: certbot/certbot
@@ -19,3 +22,8 @@ services:
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+
+networks:
+  default:
+    external: true
+    name: efficient-guru-docker-compose-network
